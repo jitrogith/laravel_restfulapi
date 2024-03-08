@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Buku;
 use Illuminate\Http\Request;
 
 class BukuController extends Controller
@@ -12,7 +13,12 @@ class BukuController extends Controller
      */
     public function index()
     {
-        //
+        $data = Buku::orderBy('judul', 'asc')->get();
+        return response()->json([
+            'status' => true,
+            'message' => 'Data found !',
+            'data' => $data
+        ], 200);
     }
 
     /**
