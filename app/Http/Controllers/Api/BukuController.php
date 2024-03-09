@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class BukuController extends Controller
 {
@@ -13,7 +14,7 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $data = Buku::orderBy('id', 'asc')->get();
+        $data = Buku::orderBy('id', 'desc')->get();
         if(count($data) != 0) {
             return response()->json([
                 'status' => true,
@@ -33,7 +34,36 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $databuku = new Buku;
+
+        $rules = [
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'tanggal_publikasi' => 'required|date',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+        if(!$validator->fails()) {
+            $databuku->judul = $request->judul;
+            $databuku->pengarang = $request->pengarang;
+            $databuku->tanggal_publikasi = $request->tanggal_publikasi;
+
+            $databuku->save();
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Data saved !'
+            ]);
+
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data not saved !',
+                'data' => $validator->errors()
+            ]);
+        }
+
     }
 
     /**
@@ -61,7 +91,42 @@ class BukuController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $databuku = Buku::find($id);
+
+        $rules = [
+            'judul' => 'required',
+            'pengarang' => 'required',
+            'tanggal_publikasi' => 'required|date',
+        ];
+
+        $validator = Validator::make($request->all(), $rules);
+
+
+        if(empty($databuku)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data not found, please check ID !'
+            ],404);
+        } if(!$validator->fails()) {
+            $databuku->judul = $request->judul;
+            $databuku->pengarang = $request->pengarang;
+            $databuku->tanggal_publikasi = $request->tanggal_publikasi;
+
+            $databuku->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data has been updated !'
+            ],200);
+            
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data has not been updated !',
+                    'data' => $validator->errors()
+                ],401);
+            }
+
     }
 
     /**
@@ -69,6 +134,20 @@ class BukuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $databuku = Buku::find($id);
+
+        if(!empty($databuku)) {
+            $databuku->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Data has been deleted !'
+            ],200);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'Please check ID !'
+            ],404);
+        }
     }
 }
