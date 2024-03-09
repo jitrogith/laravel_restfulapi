@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Buku;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class BukuController extends Controller
 {
@@ -14,12 +13,19 @@ class BukuController extends Controller
      */
     public function index()
     {
-        $data = Buku::orderBy('id', 'desc')->get();
-        return response()->json([
-            'status' => true,
-            'message' => 'Data found !',
-            'data' => $data
-        ], 200);
+        $data = Buku::orderBy('id', 'asc')->get();
+        if(count($data) != 0) {
+            return response()->json([
+                'status' => true,
+                'message' => 'Data found !',
+                'data' => $data
+            ],200);
+        } else {
+            return response()->json([
+                'status' => true,
+                'message' => 'Data empty'
+            ],200);
+        }
     }
 
     /**
@@ -27,36 +33,7 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        $databuku = new Buku;
-        
-        $rules = [
-            'judul' => 'required',
-            'pengarang' => 'required',
-            'tanggal_publikasi' => 'required|date',
-        ];
-
-        $validator = Validator::make($request->all(), $rules);
-
-        if($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Fails to store data !',
-                'data' => $validator->errors()
-            ]);
-        }
-        
-
-        $databuku->judul = $request->judul;
-        $databuku->pengarang = $request->pengarang;
-        $databuku->tanggal_publikasi = $request->tanggal_publikasi;
-
-        $databuku->save();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Data save succeed !',
-        ]);
-
+        //
     }
 
     /**
@@ -68,16 +45,15 @@ class BukuController extends Controller
         if($data) {
             return response()->json([
                 'status' => true,
-                'message' => 'Data found !',
+                'message' => 'Data found',
                 'data' => $data
             ], 200);
         } else {
             return response()->json([
                 'status' => false,
-                'message' => 'Data not found !'
-            ]);
+                'message' => 'Data not found, please check ID !'
+            ], 404);
         }
-
     }
 
     /**
