@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ApiBukuController;
 use App\Http\Controllers\Api\BukuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Route::delete('/buku/{id}', [BukuController::class, 'destroy']);
 
 Route::apiResource('buku', BukuController::class);
+
+Route::get('apibuku', [ApiBukuController::class, 'index']);
+Route::get('apibuku/{id}', [ApiBukuController::class, 'show']);
+Route::post('apibuku', [ApiBukuController::class, 'store']);
+Route::put('apibuku/{id}', [ApiBukuController::class, 'update']);
+Route::delete('apibuku/{id}', [ApiBukuController::class, 'destroy']);

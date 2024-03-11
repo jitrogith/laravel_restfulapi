@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class BukuFEController extends Controller
@@ -11,7 +12,20 @@ class BukuFEController extends Controller
      */
     public function index()
     {
-        //
+        $client = new Client;
+        $url = 'http://127.0.0.1:8000/api/buku';
+
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if($contentArray['status'] === true) {
+            $data = $contentArray['data'];
+            return view('buku.index', compact('data'));
+        } else {
+            echo "Data not found !";
+        }
+
     }
 
     /**
@@ -27,7 +41,29 @@ class BukuFEController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $client = new Client;
+        $url = 'http://127.0.0.1:8000/api/buku';
+
+        $params = [
+            'judul' => $request->judul,
+            'pengarang' => $request->pengarang,
+            'tanggal_publikasi' => $request->tanggal_publikasi,
+        ];
+
+        $response = $client->request('POST', $url, [
+            'headers' => ['Content-type' => 'application/json'],
+            'body' => json_encode($params)
+        ]);
+
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if($contentArray['status'] === true) {
+            return redirect()->to('buku')->with('success', $contentArray['message']);
+        } else {
+            $error = $contentArray['data'];
+            return redirect()->to('buku')->withErrors($error)->withInput();
+        }
     }
 
     /**
@@ -43,7 +79,20 @@ class BukuFEController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $client = new Client;
+        $url = 'http://127.0.0.1:8000/api/buku/'.$id;
+
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if($contentArray['status'] === true) {
+            $data = $contentArray['data'];
+            return view('buku.index', compact('data'));
+        } else {
+            $error = $contentArray['message'];
+            return redirect()->to('buku')->withErrors($error);
+        }
     }
 
     /**
@@ -51,7 +100,30 @@ class BukuFEController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $client = new Client;
+        $url = 'http://127.0.0.1:8000/api/buku/'.$id;
+
+        $params = [
+            'judul' => $request->judul,
+            'pengarang' => $request->pengarang,
+            'tanggal_publikasi' => $request->tanggal_publikasi
+        ];
+
+        $response = $client->request('PUT', $url, [
+            'headers' => ['Content-type' => 'application/json'],
+            'body' => json_encode($params)
+        ]);
+
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if($contentArray['status'] === true) {
+            return redirect()->to('buku')->with('success', $contentArray['message']);
+        } else {
+            $error = $contentArray['data'];
+            return redirect()->back()->withErrors($error)->withInput();
+        }
+
     }
 
     /**
@@ -59,6 +131,18 @@ class BukuFEController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $client = new Client;
+        $url = 'http://127.0.0.1:8000/api/buku/'.$id;
+
+        $response = $client->request('DELETE', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
+
+        if($contentArray['status'] === true) {
+            return redirect()->back()->with('success', $contentArray['message']);
+        } else {
+            $error = $contentArray['message'];
+            return redirect()->back()->withErrors($error);
+        }
     }
 }
