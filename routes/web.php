@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\BukuFEController;
+// use App\Http\Controllers\BukuFEController;
+use App\Http\Controllers\FEBukuController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,8 +19,3 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('buku', [BukuFEController::class, 'index']);
-Route::post('buku', [BukuFEController::class, 'store']);
-Route::get('buku/{id}', [BukuFEController::class, 'edit']);
-Route::put('buku/{id}', [BukuFEController::class, 'update']);
-Route::delete('buku/{id}', [BukuFEController::class, 'destroy']);

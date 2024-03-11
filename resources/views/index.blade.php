@@ -7,10 +7,14 @@
     <title>Data Buku</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="https://cdn.datatables.net/2.0.2/css/dataTables.bootstrap5.css">
+
 
 </head>
-
 <body class="bg-light">
+  
     <main class="container">
         <!-- START FORM -->
         <div class="my-3 p-3 bg-body rounded shadow-sm">
@@ -52,7 +56,7 @@
         <!-- START DATA -->
         @if (Route::current()->uri == 'buku')
         <div class="my-3 p-3 bg-body rounded shadow-sm">
-            <table class="table table-striped">
+            <table class="table table-striped" id="example">
                 <thead>
                     <tr>
                         <th class="col-md-1">No</th>
@@ -86,9 +90,16 @@
         @endif
         <!-- AKHIR DATA -->
     </main>
+    <script>
+      new DataTable('#example');
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
     </script>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.2/js/dataTables.bootstrap5.js"></script>
 
 </body>
 
