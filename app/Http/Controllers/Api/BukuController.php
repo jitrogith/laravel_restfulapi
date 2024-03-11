@@ -82,7 +82,7 @@ class BukuController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Data not found, please check ID !'
-            ], 404);
+            ]);
         }
     }
 
@@ -106,7 +106,7 @@ class BukuController extends Controller
             return response()->json([
                 'status' => false,
                 'message' => 'Data not found, please check ID !'
-            ],404);
+            ]);
         } if(!$validator->fails()) {
             $databuku->judul = $request->judul;
             $databuku->pengarang = $request->pengarang;

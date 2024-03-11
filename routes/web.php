@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BukuFEController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('buku', [BukuFEController::class, 'index']);
+Route::post('buku', [BukuFEController::class, 'store']);
+Route::get('buku/{id}', [BukuFEController::class, 'edit']);
