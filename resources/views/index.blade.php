@@ -17,6 +17,9 @@
           @include('message')
             <form action='' method='post'>
               @csrf
+              @if (Route::current()->uri == 'buku/{id}')
+                @method('put')
+              @endif
                 <div class="mb-3 row">
                     <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
                     <div class="col-sm-10">
@@ -37,7 +40,9 @@
                 </div>
                 <div class="mb-3 row">
                     <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-10"><button type="submit" class="btn btn-primary" name="submit">SIMPAN</button>
+                    <div class="col-sm-10">
+                      <a href="{{ url('buku') }}" type="" class="btn btn-warning" name="submit">CANCEL</a>
+                      <button type="submit" class="btn btn-primary" name="submit">SIMPAN</button>
                     </div>
                 </div>
             </form>
@@ -66,7 +71,11 @@
                       <td>{{ date('d-m-Y',strtotime($item['tanggal_publikasi'])) }}</td>
                       <td>
                         <a href="{{ url('buku/'.$item['id']) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="" class="btn btn-danger btn-sm">Delete</a>
+                        <form action="{{ url('buku/'.$item['id']) }}" method="post" onsubmit="return confirm('Are you sure to delete this data ?')" class="d-inline">
+                          @csrf
+                          @method('delete')
+                          <button type="submit" name="submit" class="btn btn-danger btn-sm">Delete</button>
+                        </form>
                       </td>
                     </tr>
                   @endforeach

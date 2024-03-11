@@ -124,7 +124,7 @@ class BukuController extends Controller
                     'status' => false,
                     'message' => 'Data has not been updated !',
                     'data' => $validator->errors()
-                ],401);
+                ]);
             }
 
     }
