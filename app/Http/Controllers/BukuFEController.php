@@ -13,7 +13,7 @@ class BukuFEController extends Controller
     public function index()
     {
         $client = new Client;
-        $url = 'http://127.0.0.1:8000/api/buku';
+        $url = 'https://api.jsbapps.store/api/buku';
 
         $response = $client->request('GET', $url);
         $content = $response->getBody()->getContents();
@@ -42,7 +42,7 @@ class BukuFEController extends Controller
     public function store(Request $request)
     {
         $client = new Client;
-        $url = 'http://127.0.0.1:8000/api/buku';
+        $url = 'https://api.jsbapps.store/api/buku';
 
         $params = [
             'judul' => $request->judul,
@@ -80,7 +80,7 @@ class BukuFEController extends Controller
     public function edit(string $id)
     {
         $client = new Client;
-        $url = 'http://127.0.0.1:8000/api/buku/'.$id;
+        $url = 'https://api.jsbapps.store/api/buku'.$id;
 
         $response = $client->request('GET', $url);
         $content = $response->getBody()->getContents();
@@ -101,7 +101,7 @@ class BukuFEController extends Controller
     public function update(Request $request, string $id)
     {
         $client = new Client;
-        $url = 'http://127.0.0.1:8000/api/buku/'.$id;
+        $url = 'https://api.jsbapps.store/api/buku/'.$id;
 
         $params = [
             'judul' => $request->judul,
@@ -132,7 +132,7 @@ class BukuFEController extends Controller
     public function destroy(string $id)
     {
         $client = new Client;
-        $url = 'http://127.0.0.1:8000/api/buku/'.$id;
+        $url = 'https://api.jsbapps.store/api/buku/'.$id;
 
         $response = $client->request('DELETE', $url);
         $content = $response->getBody()->getContents();
