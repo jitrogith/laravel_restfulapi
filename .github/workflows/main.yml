@@ -1,0 +1,19 @@
+on: 
+  push:
+    branches:
+      main
+jobs:
+    deploy_job:
+    runs-on: ubuntu-latest
+    name: deploy
+    steps:
+        - name: Checkout
+        uses: actions/checkout@v2
+        - name: Deploy file
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+        with:
+            username: ${{ secrets.FTP_USERNAME }}
+            password: ${{ secrets.FTP_PASSWORD }}
+            server: ${{ secrets.FTP_SERVER }}
+            local_path: './static/*'
+            remote_path: '/home/bpjf5326/public_html/jsbapps.store/test/'
