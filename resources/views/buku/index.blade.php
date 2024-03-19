@@ -19,7 +19,7 @@
               @csrf
               @include('buku.method')
                 <div class="mb-3 row">
-                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku</label>
+                    <label for="judul" class="col-sm-2 col-form-label">Judul Buku TES</label>
                     <div class="col-sm-10">
                         <input type="text" class="form-control" name='judul' id="judul" value="{{ isset($data['judul'])? $data['judul'] : old('judul') }}">
                     </div>
